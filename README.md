@@ -29,6 +29,10 @@ There will be no functionality beyond the initial second sign on, but we will sh
 A getting started guide can be found [here](./cdk/README.md).
 
 
+## Screenshot
+
+![Screenshot](./docs/img/screenshot.png)
+
 ## Architecture 
 
 ![Architecture Diagram](./docs/img/architecture.png)

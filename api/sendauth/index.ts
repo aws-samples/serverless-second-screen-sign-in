@@ -75,7 +75,7 @@ export async function handler(
 
     logger.info(`sending Auth Tokens to ${connectionId} for ${wsEvent.loginCode}`);
     return await axios
-      .post(`${process.env.WEBSOCKET_URI}/@connections/${connectionId}`, wsEvent)
+    .post(`${process.env.WEBSOCKET_URI?.replace('wss:', 'https:')}/@connections/${connectionId}`, wsEvent)
       .then((_) => ({ statusCode: 200 }));
   } catch (error: unknown) {
     logger.error(`Unable to send to client`, error as Error);

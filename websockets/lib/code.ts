@@ -132,7 +132,7 @@ export function sendLoginCodeBackToClient(connectionId: string, loginCode: strin
   logger.info(`Returning code for ${connectionId}: ${loginCode}`);
 
   return axios
-    .post(`${process.env.WEBSOCKET_URI}/@connections/${connectionId}`, { loginCode })
+    .post(`${process.env.WEBSOCKET_URI?.replace('wss:', 'https:')}/@connections/${connectionId}`, { loginCode })
     .then((_) => loginCode)
     .catch((err) => {
       logger.error('Error thrown when calling websocket', err);

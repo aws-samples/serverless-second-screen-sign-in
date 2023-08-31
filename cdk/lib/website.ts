@@ -1,5 +1,5 @@
 import { Construct } from "constructs";
-import { Duration } from "aws-cdk-lib";
+import { CfnOutput, Duration } from "aws-cdk-lib";
 import { RemovalPolicy } from "aws-cdk-lib";
 import { PolicyStatement, CanonicalUserPrincipal } from "aws-cdk-lib/aws-iam";
 import {
@@ -77,6 +77,9 @@ export class WebsiteHosting extends Construct {
     });
 
     this.distributionUrl = this.distribution.distributionDomainName;  
+    new CfnOutput(this, 'distributionUrl', { 
+      value: this.distribution.distributionDomainName
+    })
   }
 
   deployWebsiteToS3(appApiEndpoint: string, websocketUrl: string, domain: string, authUrl: string, clientId: string, userPoolId:string) { 

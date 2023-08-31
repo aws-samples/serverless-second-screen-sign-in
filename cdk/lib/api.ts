@@ -41,14 +41,14 @@ export class Api extends Construct {
 
     }
 
-    createIntegrations(sendAuthRestApi: RestApi, userPool: UserPool, table: Table, tableName: string, websocketUrl: string) {
+    createIntegrations(sendAuthRestApi: RestApi, userPool: UserPool, table: Table, tableName: string, websocketUrl: string, websocketInvokeArn: string) {
         // To validate the code is in the database, disabling the ability to login if it is not. 
         this.createDynamoDBIntegration(sendAuthRestApi, table, tableName);
         // To send the authentication code back to the websocket connected to the code. 
-        this.createSendAuthIntegration(sendAuthRestApi, userPool, table, tableName, websocketUrl)
+        this.createSendAuthIntegration(sendAuthRestApi, userPool, table, tableName, websocketUrl, websocketInvokeArn)
     }
 
-    createSendAuthIntegration(sendAuthRestApi: RestApi, userPool: UserPool, table: Table, tableName: string, websocketUrl: string) {
+    createSendAuthIntegration(sendAuthRestApi: RestApi, userPool: UserPool, table: Table, tableName: string, websocketUrl: string,  websocketInvokeArn: string) {
         // This is the send auth function 
         const sendAuthFunction = new NodejsFunction(this, "sendAuthToWebsocketFunction", {
             entry: path.join(__dirname, "../../api/sendauth/index.ts"),
@@ -58,7 +58,7 @@ export class Api extends Construct {
             memorySize: 1024,
             environment: {
                 TABLE_NAME: tableName,
-                WEBSOCKET_URI: websocketUrl.replace("wss://", "https://")
+                WEBSOCKET_URI: websocketUrl
             },
         });
         table.grantReadWriteData(sendAuthFunction);
@@ -66,7 +66,7 @@ export class Api extends Construct {
         const execApiPolicy = new PolicyStatement({
             effect: Effect.ALLOW,
             actions: ["execute-api:*"],
-            resources: ["*"],
+            resources: [websocketInvokeArn],
         });
 
         sendAuthFunction.role?.attachInlinePolicy(new Policy(this, "executeOnMessagePolicy", {

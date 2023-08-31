@@ -104,7 +104,7 @@ export default function SecondScreenInstructions() {
               gutterBottom
               textAlign={"center"}
             >
-              Sign in at <HighlightText>www.anycompany.com/tv</HighlightText>{" "}
+              Sign in at <HighlightText>{window.env.domain}/tv</HighlightText>{" "}
               and enter code:
             </Typography>
 

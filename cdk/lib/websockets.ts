@@ -1,4 +1,4 @@
-import { Duration, Stack } from "aws-cdk-lib";  
+import { Duration, Stack, Fn } from "aws-cdk-lib";  
 import { Table } from "aws-cdk-lib/aws-dynamodb";
 import { Construct } from "constructs";
 import { Policy } from "aws-cdk-lib/aws-iam";
@@ -21,6 +21,7 @@ import * as path from 'path';
 
 export class WebsocketApi extends Construct {
   public readonly websocketUri: string; 
+  public readonly websocketInvokeArn: string; 
 
   constructor(scope: Construct, id: string, table: Table, tableName: string) {
     super(scope, id);
@@ -46,7 +47,7 @@ export class WebsocketApi extends Construct {
       memorySize: 1024,
       environment: {
         TABLE_NAME: tableName,
-        WEBSOCKET_URI: this.websocketUri.replace("wss://", "https://") // The sending URI uses https.
+        WEBSOCKET_URI: this.websocketUri // The sending URI uses https.
       },
     });
 
@@ -68,10 +69,11 @@ export class WebsocketApi extends Construct {
     table.grantReadWriteData(onMessage);
     table.grantReadWriteData(disconnectFunc);
 
+    this.websocketInvokeArn = `arn:aws:execute-api:${Stack.of(this).region}:${Stack.of(this).account}:${Fn.ref(api.logicalId)}/*`
     const execApiPolicy = new PolicyStatement({
       effect: Effect.ALLOW,
       actions: ["execute-api:*"],
-      resources: ["*"],
+      resources: [this.websocketInvokeArn],
     });
 
     onMessage.role?.attachInlinePolicy(

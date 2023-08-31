@@ -34,6 +34,6 @@ export class SecondScreenSignOnStack extends cdk.Stack {
     
 
     web.deployWebsiteToS3(api.sendAuthRestApi.url, ws.websocketUri, web.distributionUrl, authUrl, client.userPoolClientId, cognito.userPool.userPoolId)
-    api.createIntegrations(api.sendAuthRestApi, cognito.userPool, ddb.table, ddb.tableName, ws.websocketUri);
+    api.createIntegrations(api.sendAuthRestApi, cognito.userPool, ddb.table, ddb.tableName, ws.websocketUri, ws.websocketInvokeArn);
   }
 }
