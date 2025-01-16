@@ -4,6 +4,8 @@ This guide will walk you through how to deploy
 
  This enhanced authentication method provides a seamless experience for users. The project is written in TypeScript and requires three arguments: email, ses_email_arn, and project_prefix.
 
+project_prefix is an arbitrary string to define the name of your project. It defaults to: `single-sign-on-demo-cdk`
+
 Follow the steps below to deploy the project:
 
 ### Prerequisites
@@ -29,8 +31,8 @@ npm run build-dependencies.
 
 3. Deploy the CDK using the following commands.
 ```
-cdk synth -- -c email=YOUR_EMAIL -c ses_email_arn=YOUR_SES_EMAIL_ARN -c project_prefix=YOUR_PROJECT_PREFIX
 cdk deploy -- -c email=YOUR_EMAIL -c ses_email_arn=YOUR_SES_EMAIL_ARN -c project_prefix=YOUR_PROJECT_PREFIX
+cdk deploy  -- -c email=YOUR_EMAIL -c ses_email_arn=YOUR_SES_EMAIL_ARN -c project_prefix=YOUR_PROJECT_PREFIX
 ```
 
 Replace YOUR_EMAIL, YOUR_SES_EMAIL_ARN, and YOUR_PROJECT_PREFIX. The project prefix can be anything.

@@ -1,6 +1,6 @@
 import { Typography, Stack } from "@mui/material";
 import React from "react";
-import { ReactComponent as Tick } from "../tick.svg";
+import Tick from "../tick.svg?react";
 import { useAuth } from "../context/AuthContext";
 
 // Largely a copy of the SignedIn Screen, but just used as a demo t

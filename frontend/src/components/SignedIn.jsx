@@ -1,7 +1,7 @@
 import { Typography, Stack } from "@mui/material";
 import React, { useEffect } from "react";
 import { useLocation } from "react-router-dom";
-import { ReactComponent as Tick } from "../tick.svg";
+import Tick from "../tick.svg?react";
 import { useAuth } from "../context/AuthContext";
 
 export default function SignedIn() {

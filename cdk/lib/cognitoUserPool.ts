@@ -60,7 +60,7 @@ export class CognitoUserPool extends Construct {
 
     this.userPool.addDomain("secondScreenDomain", {
       cognitoDomain: {
-        domainPrefix: this.node.tryGetContext('project_prefix')        
+        domainPrefix: this.node.tryGetContext('project_prefix') ?? "single-sign-on-demo-cdk"       
       },
     });
 
@@ -69,7 +69,7 @@ export class CognitoUserPool extends Construct {
     cfnUserPool.emailConfiguration = {
       emailSendingAccount: "DEVELOPER",
       replyToEmailAddress: this.node.tryGetContext('email'),
-      sourceArn: this.node.tryGetContext('email_arn'),
+      sourceArn: this.node.tryGetContext('ses_email_arn'),
     };
 
     return client;
